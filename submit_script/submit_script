@@ -1,0 +1,30 @@
+cd ~/csci243/files
+#get * ./
+#rm *~
+echo -n "Homework (1) or Project (2): "
+read type
+echo -n "Number: "
+read num
+if test $type -eq 1
+then
+cvs import -m "Imported sources" csci243/Homeworks/$num/ mark start
+rm *
+cd ~/Courses/CS243/Homeworks/$num/
+cvs checkout csci243/Homeworks/$num
+cd csci243/Homeworks/$num/
+rm CVS -rf
+mv * ~/Courses/CS243/Homeworks/$num/
+cd ~/Courses/CS243/Homeworks/$num/
+rm csci243 -rf
+else
+cvs import -m "Imported sources" csci243/Projects/$num/ mark start
+rm *
+cd ~/Courses/CS243/Projects/$num/
+cvs checkout csci243/Projects/$num
+cd csci243/Projects/$num/
+rm CVS -rf
+mv * ~/Courses/CS243/Projects/$num/
+cd ~/Courses/CS243/Projects/$num/
+rm csci243 -rf
+fi
+exit 0
