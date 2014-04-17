@@ -1,0 +1,44 @@
+echo "Starting time: `date`"
+./Remove_End_Testing
+if test -e space_taker
+then
+rm space_taker*
+fi
+if test -e filler0
+then
+rm filler*
+fi
+echo -n 0 > space_taker
+for (( i = 0 ; i < 15 ; i++ ))
+do
+cat space_taker >> space_taker_tmp
+cat space_taker_tmp >> space_taker
+done
+rm space_taker_tmp
+numberoftimes=0
+while test ! -e endingfile
+do
+errcode=0
+fillercount=0
+numberoftimes=`expr $numberoftimes + 1`
+echo "Creating files: Round $numberoftimes.a"
+while [ $errcode -eq 0 ]
+do
+cat space_taker > filler$fillercount
+errcode=$?
+fillercount=`expr $fillercount + 1`
+#echo "Creating filler$fillercount"
+done
+echo "Removing files: Round $numberoftimes.b"
+while [ $fillercount -gt 0 ]
+do
+fillercount=`expr $fillercount - 1`
+#echo "Removing filler$fillercount"
+rm filler$fillercount
+done
+done
+echo "Cleaning up and exiting"
+rm space_taker
+rm endingfile
+echo "Ending time: `date`"
+exit 0
